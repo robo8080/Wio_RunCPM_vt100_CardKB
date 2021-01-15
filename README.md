@@ -30,12 +30,11 @@ RunCPM - Z80 CP/M 2.2 emulator <https://github.com/MockbaTheBorg/RunCPM><br>
 
 * Ctrl-@: Fn-2
 * Ctrl-A～Z : Fn-a～z
-* Ctrl-\[: Fn-6
+* Ctrl-\[: Fn-9
 * Ctrl-\\: Fn-7
-* Ctrl-\]: Fn-8
-* Ctrl-^: Fn-9
-* Ctrl-_: Fn-0
-
+* Ctrl-\]: Fn-0
+* Ctrl-^: Fn-6
+* Ctrl-_: Fn-8
 
 ---
 
