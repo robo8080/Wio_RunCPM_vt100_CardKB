@@ -1039,8 +1039,8 @@ void cursorPosition(uint8_t y, uint8_t x) {
 void refreshScreen() {
   lcd.setAddrWindow(MARGIN_LEFT, MARGIN_TOP, SP_W, SP_H);
   for (int i = 0; i < SC_H; i++)
-  for (uint8_t i = 0; i < SC_H; i++)
-    sc_updateLine(i);
+    for (uint8_t i = 0; i < SC_H; i++)
+      sc_updateLine(i);
 }
 
 // ED (Erase In Display): 画面を消去
@@ -1469,28 +1469,28 @@ void loadLEDs(uint8_t m) {
   switch (m) {
     case 0:
       // すべての LED をオフ
-/*
-      digitalWrite(LED_01, LOW);
-      digitalWrite(LED_02, LOW);
-      digitalWrite(LED_03, LOW);
-      digitalWrite(LED_04, LOW);
-*/      
+      /*
+            digitalWrite(LED_01, LOW);
+            digitalWrite(LED_02, LOW);
+            digitalWrite(LED_03, LOW);
+            digitalWrite(LED_04, LOW);
+      */
       break;
     case 1:
       // LED1 をオン
-//      digitalWrite(LED_01, HIGH);
+      //      digitalWrite(LED_01, HIGH);
       break;
     case 2:
       // LED2 をオン
-//      digitalWrite(LED_02, HIGH);
+      //      digitalWrite(LED_02, HIGH);
       break;
     case 3:
       // LED3 をオン
-//      digitalWrite(LED_03, HIGH);
+      //      digitalWrite(LED_03, HIGH);
       break;
     case 4:
       // LED4 をオン
-//      digitalWrite(LED_04, HIGH);
+      //      digitalWrite(LED_04, HIGH);
       break;
   }
 }
@@ -1585,7 +1585,7 @@ void unknownSequence(em m, char c) {
       break;
     case em::CSI2:
       s = s + " [";
-      if (isDECPrivateMode) 
+      if (isDECPrivateMode)
         s = s + "?";
       break;
     case em::EGR:
@@ -1635,23 +1635,23 @@ void setup() {
   delay(500);
 
   // LED の初期化
-/*
-  pinMode(LED_01, OUTPUT);
-  pinMode(LED_02, OUTPUT);
-  pinMode(LED_03, OUTPUT);
-  pinMode(LED_04, OUTPUT);
-  digitalWrite(LED_01, LOW);
-  digitalWrite(LED_02, LOW);
-  digitalWrite(LED_03, LOW);
-  digitalWrite(LED_04, LOW);
-*/
-  
+  /*
+    pinMode(LED_01, OUTPUT);
+    pinMode(LED_02, OUTPUT);
+    pinMode(LED_03, OUTPUT);
+    pinMode(LED_04, OUTPUT);
+    digitalWrite(LED_01, LOW);
+    digitalWrite(LED_02, LOW);
+    digitalWrite(LED_03, LOW);
+    digitalWrite(LED_04, LOW);
+  */
+
   // LCD の初期化
   lcd.init();
   lcd.startWrite();
   lcd.setRotation(1);
   lcd.setColorDepth(16);
-  
+
   fontTop = (uint8_t*)font6x8tt + 3;
   resetToInitialState();
   printString("\e[0;44m *** Terminal Init *** \e[0m\n");
@@ -1669,9 +1669,9 @@ void setup() {
     pinMode(BTN_PORT[i], INPUT_PULLUP);
 
   // ブザーの初期化
-  pinMode(SPK_PIN, OUTPUT);  
+  pinMode(SPK_PIN, OUTPUT);
 
-//---------RunCPM-----------------------------------------------------
+  //---------RunCPM-----------------------------------------------------
 
 #ifdef DEBUGLOG
   _sys_deletefile((uint8 *)LogName);
