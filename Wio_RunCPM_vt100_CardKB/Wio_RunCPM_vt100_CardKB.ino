@@ -93,7 +93,7 @@ int lst_open = FALSE;
 #define swap(a, b) { uint16_t t = a; a = b; b = t; }
 
 // シリアル
-#define DebugSerial Serial1
+#define DebugSerial Serial
 
 // LED 制御用ピン
 /*
@@ -244,13 +244,13 @@ union MODE_EX mode_ex = {defaultModeEx};
   +-------------+--------------+-----------+
   | キーボード  | Wio Terminal |  ESC SEQ  |
   +-------------+--------------+-----------+
-  | [F1]        | WIO_KEY_C    | [ESC] O P |
-  | [F2]        | WIO_KEY_B    | [ESC] O Q |
-  | [F3]        | WIO_KEY_A    | [ESC] O R |
-  | [UP]        | WIO_5S_UP    | [ESC] O A |
-  | [DOWN]      | WIO_5S_DOWN  | [ESC] O B |
-  | [RIGHT]     | WIO_5S_RIGHT | [ESC] O C |
-  | [LEFT]      | WIO_5S_LEFT  | [ESC] O D |
+  | [F3]        | WIO_KEY_C    | [fn] 3 |
+  | [F4]        | WIO_KEY_B    | [fn] 4 |
+  | [F5]        | WIO_KEY_A    | [fn] 5 |
+  | [UP]        | WIO_5S_UP    | [fn] [↑] |
+  | [DOWN]      | WIO_5S_DOWN  | [fn] [↓] |
+  | [RIGHT]     | WIO_5S_RIGHT | [fn] [→] |
+  | [LEFT]      | WIO_5S_LEFT  | [fn] [←] |
   | [ENTER]     | WIO_5S_PRESS | [CR]      |
   +-------------+--------------+-----------+
 ********************************************/
@@ -266,18 +266,14 @@ void printSpecialKey(const char *str);
 // スイッチ情報
 enum WIO_SW {SW_UP, SW_DOWN, SW_RIGHT, SW_LEFT, SW_PRESS};
 PROGMEM const int SW_PORT[5] = {WIO_5S_UP, WIO_5S_DOWN, WIO_5S_RIGHT, WIO_5S_LEFT, WIO_5S_PRESS};
-PROGMEM const char SW_CMD[5][CMD_LEN] = {"\eOA", "\eOB", "\eOC", "\eOD", "\r"};
+PROGMEM const char SW_CMD[5][CMD_LEN] = {"\xb5", "\xb6", "\xb7", "\xb4", "\r"};
 bool prev_sw[5] = {false, false, false, false, false};
 
 // ボタン情報
 enum WIO_BTN {BT_A, BT_B, BT_C};
 PROGMEM const int BTN_PORT[3] = {WIO_KEY_A, WIO_KEY_B, WIO_KEY_C};
-PROGMEM const char BTN_CMD[3][CMD_LEN] = {"\eOR", "\eOQ", "\eOP"};
+PROGMEM const char BTN_CMD[3][CMD_LEN] = {"\x85", "\x84", "\x83"};
 bool prev_btn[3] = {false, false, false};
-
-// 特殊キー情報
-enum SP_KEY {KY_HOME, KY_INS, KY_DEL, KY_END, KY_PGUP, KY_PGDOWN};
-PROGMEM const char KEY_CMD[6][CMD_LEN] = {"\eO1", "\eO2", "\x7F", "\eO4", "\eO5", "\eO6"};
 
 // 前回位置情報
 int16_t p_XP = 0;
@@ -303,11 +299,20 @@ int16_t vals[10] = {};
 bool needCursorUpdate = false;
 bool hideCursor = false;
 
+// キュー
+#define QUEUE_LENGTH 100
+QueueHandle_t xQueue;
+
 // LCD 制御用
 static LGFX lcd;
 
 // 関数
 // -----------------------------------------------------------------------------
+
+// 特殊キーの送信
+void printSpecialKey(const char *str) {
+  while (*str) xQueueSend(xQueue, (const char *)str++, 0);
+}
 
 // 指定位置の文字の更新表示
 void sc_updateChar(uint16_t x, uint16_t y) {
@@ -1171,18 +1176,17 @@ void deleteLine(uint8_t v) {
 
 // CPR (Cursor Position Report): カーソル位置のレポート
 void cursorPositionReport(uint16_t y, uint16_t x) {
-  // Need Debug
-  printString("\e[");
-  printString(String(y, DEC).c_str());
-  printString(";");
-  printString(String(x, DEC).c_str());
-  printString("R"); // CPR (Cursor Position Report)
+  String s = "\e[" + String(y, DEC) + ";" + String(x, DEC) + "R";
+  for (int i = 0; i < s.length(); i++)
+    xQueueSend(xQueue, (char *)s.charAt(i), 0);
 }
 
 // DA (Device Attributes): 装置オプションのレポート
 // オプションのレポート
 void deviceAttributes(uint8_t m) {
-  printString("\e[?1;0c"); // Need Debug
+  String s = "\e[?1;0c";
+  for (int i = 0; i < s.length(); i++)
+    xQueueSend(xQueue, (char *)s.charAt(i), 0);
 }
 
 // TBC (Tabulation Clear): タブストップをクリア
@@ -1456,7 +1460,11 @@ void selectGraphicRendition(int16_t *vals, int16_t nVals) {
 void deviceStatusReport(uint8_t m) {
   switch (m) {
     case 5:
-      printString("\e[0n"); // Need Debug
+      {
+        String s = "\e[0n";
+        for (int i = 0; i < s.length(); i++)
+          xQueueSend(xQueue, (char *)s.charAt(i), 0);
+      }
       break;
     case 6:
       cursorPositionReport(XP, YP); // CPR (Cursor Position Report)
@@ -1633,6 +1641,7 @@ void setup() {
   Wire.begin( );    // Define(SDA, SCL)
   DebugSerial.begin(115200);
   delay(500);
+  xQueue = xQueueCreate( QUEUE_LENGTH, sizeof( uint8_t ) );
 
   // LED の初期化
   /*
@@ -1728,4 +1737,29 @@ void setup() {
 
 // ループ
 void loop() {
+  // スイッチ
+  for (int i = 0; i < 5; i++) {
+    if (digitalRead(SW_PORT[i]) == LOW) {
+      prev_sw[i] = true;
+    } else {
+      if (prev_sw[i]) {
+        printSpecialKey(SW_CMD[i]);
+        needCursorUpdate = true;
+      }
+      prev_sw[i] = false;
+    }
+  }
+
+  // ボタン
+  for (int i = 0; i < 3; i++) {
+    if (digitalRead(BTN_PORT[i]) == LOW) {
+      prev_btn[i] = true;
+    } else {
+      if (prev_btn[i]) {
+        printSpecialKey(BTN_CMD[i]);
+        needCursorUpdate = true;
+      }
+      prev_btn[i] = false;
+    }
+  }
 }
