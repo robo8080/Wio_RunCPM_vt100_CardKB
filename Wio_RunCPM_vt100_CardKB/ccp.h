@@ -244,7 +244,7 @@ void _ccp_dir(void) {
 			}
 			_ccp_printfcb(tmpFCB, FALSE);
 			++fcount; ++ccount;
-			if (ccount > 3)
+			if (ccount > 2)
 				ccount = 0;
 		}
 	} else {
