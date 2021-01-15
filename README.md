@@ -1,38 +1,45 @@
 # Wio_RunPCM_vt100_CardKB
-Wio Terminal‚Å“®‚­’´¬Œ^CP/Mƒ}ƒVƒ“
+Wio Terminalã§å‹•ãè¶…å°å‹CP/Mãƒã‚·ãƒ³
 
-![‰æ‘œ1](images/image1.png)<br><br>
-![‰æ‘œ2](images/image2.png)<br><br>
+![ç”»åƒ1](images/image1.png)<br><br>
+![ç”»åƒ2](images/image2.png)<br><br>
 
-"VT100 Terminal Emulator"‚Æ"Z80 CP/M 2.2 emulator"‚ğ‘g‚İ‡‚í‚¹‚½AWio Terminal‚Å“®‚­’´¬Œ^CP/Mƒ}ƒVƒ“‚Å‚·B<br>
-(’ˆÓFƒfƒBƒXƒvƒŒƒC‚ª1s53•¶š‚Ì‚È‚Ì‚ÅA1s80•¶š‚ğ‘O’ñ‚É‚µ‚Ä‚¢‚éƒvƒƒOƒ‰ƒ€‚Í•\¦‚ª•ö‚ê‚Ü‚·B)<br><br>
-ƒx[ƒX‚É‚µ‚½ƒIƒŠƒWƒiƒ‹‚Í‚±‚¿‚çB<br>
+"VT100 Terminal Emulator"ã¨"Z80 CP/M 2.2 emulator"ã‚’çµ„ã¿åˆã‚ã›ãŸã€Wio Terminalã§å‹•ãè¶…å°å‹CP/Mãƒã‚·ãƒ³ã§ã™ã€‚<br>
+(æ³¨æ„ï¼šãƒ‡ã‚£ã‚¹ãƒ—ãƒ¬ã‚¤ãŒ1è¡Œ53æ–‡å­—ã®ãªã®ã§ã€1è¡Œ80æ–‡å­—ã‚’å‰æã«ã—ã¦ã„ã‚‹ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã¯è¡¨ç¤ºãŒå´©ã‚Œã¾ã™ã€‚)<br><br>
+ãƒ™ãƒ¼ã‚¹ã«ã—ãŸã‚ªãƒªã‚¸ãƒŠãƒ«ã¯ã“ã¡ã‚‰ã€‚<br>
 VT100 Terminal Emulator for Arduino STM32 <https://github.com/ht-deko/vt100_stm32><br>
 RunCPM - Z80 CP/M 2.2 emulator <https://github.com/MockbaTheBorg/RunCPM><br>
 
 ---
 
-### •K—v‚È•¨ ###
+### å¿…è¦ãªç‰© ###
 * [Wio Terminal](https://www.switch-science.com/catalog/6360/ "Title")<br>
-* Arduino IDE (1.8.13‚Å“®ìŠm”F‚ğ‚µ‚Ü‚µ‚½B)<br>
+* Arduino IDE (1.8.13ã§å‹•ä½œç¢ºèªã‚’ã—ã¾ã—ãŸã€‚)<br>
 * [SAMD51 Interrupt Timer library](https://github.com/Dennis-van-Gils/SAMD51_InterruptTimer "Title")
-* [SDdFatƒ‰ƒCƒuƒ‰ƒŠ](https://github.com/greiman/SdFat "Title") (1.1.4‚Å“®ìŠm”F‚ğ‚µ‚Ü‚µ‚½B2.x.x‚Å‚ÍƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚É‚È‚è‚Ü‚·B)
-* [M5Stack—pƒJ[ƒhŒ^ƒL[ƒ{[ƒhƒ†ƒjƒbƒg](https://www.switch-science.com/catalog/5689/ "Title")
-* microSD ƒJ[ƒh
+* [SDdFatãƒ©ã‚¤ãƒ–ãƒ©ãƒª](https://github.com/greiman/SdFat "Title")
+* [LovyanGFXãƒ©ã‚¤ãƒ–ãƒ©ãƒª](https://github.com/lovyan03/LovyanGFX "Title")
+* [M5Stackç”¨ã‚«ãƒ¼ãƒ‰å‹ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ãƒ¦ãƒ‹ãƒƒãƒˆ](https://www.switch-science.com/catalog/5689/ "Title")
+* microSD ã‚«ãƒ¼ãƒ‰
 <br>
 
-ƒ‰ƒCƒuƒ‰ƒŠ‚ÍArduino IDE‚Ì[ƒXƒPƒbƒ` | ƒ‰ƒCƒuƒ‰ƒŠ‚ğƒCƒ“ƒNƒ‹[ƒh |ƒ‰ƒCƒuƒ‰ƒŠ‚ğŠÇ—...] ‚©‚çƒCƒ“ƒXƒg[ƒ‹‚·‚é‚ÆŠÈ’P‚Å‚·B
+ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã¯Arduino IDEã®[ã‚¹ã‚±ãƒƒãƒ | ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ |ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ç®¡ç†...] ã‹ã‚‰ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã™ã‚‹ã¨ç°¡å˜ã§ã™ã€‚
 
 ---
 
-### CardKB‚Å‚Ì§Œä•¶š‚Ì“ü—Í•û–@ ###
-* Ctrl-C : Fn-C
-* Ctrl-H : Fn-H
+### CardKBã§ã®åˆ¶å¾¡æ–‡å­—ã®å…¥åŠ›æ–¹æ³• ###
+
+* Ctrl-@: Fn-2
+* Ctrl-Aï½Z : Fn-aï½z
+* Ctrl-\[: Fn-9
+* Ctrl-\\: Fn-7
+* Ctrl-\]: Fn-0
+* Ctrl-^: Fn-6
+* Ctrl-_: Fn-8
 
 ---
 
-### Ql‘—¿ ###
-RunCPM—p‚ÌƒfƒBƒXƒN‚Ìì‚è•û‚È‚Ç‚ÍADEKOi@ht_dekoj‚³‚ñ‚Ì‚±‚¿‚ç‚Ì‹L–‚ğQÆ‚µ‚Ä‚­‚¾‚³‚¢B<br>
+### å‚è€ƒè³‡æ–™ ###
+RunCPMç”¨ã®ãƒ‡ã‚£ã‚¹ã‚¯ã®ä½œã‚Šæ–¹ãªã©ã¯ã€DEKOï¼ˆ@ht_dekoï¼‰ã•ã‚“ã®ã“ã¡ã‚‰ã®è¨˜äº‹ã‚’å‚ç…§ã—ã¦ãã ã•ã„ã€‚<br>
 
-* [RunCPM (Z80 CP/M 2.2 ƒGƒ~ƒ…ƒŒ[ƒ^)](https://ht-deko.com/arduino/runcpm.html "Title")<br><br><br>
+* [RunCPM (Z80 CP/M 2.2 ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ã‚¿)](https://ht-deko.com/arduino/runcpm.html "Title")<br><br><br>
 

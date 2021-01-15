@@ -2,9 +2,8 @@
 #define ABSTRACT_H
 #include <Wire.h>
 
+// CrdKB I2C アドレス
 #define CARDKB_ADDR 0x5F
-// スピーカー制御用ピン
-#define SPK_PIN  WIO_BUZZER
 
 #ifdef PROFILE
 #define printf(a, b) Serial.println(b)
@@ -22,6 +21,12 @@
 #ifdef _STM32_DEF_
 #define HostOS 0x06
 #endif
+
+PROGMEM const uint8 KEY_TBL[48] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1e, 0x1c, 0x1f, 0x1b, 0x1d, 0x00, 
+                                   0x00, 0x11, 0x17, 0x05, 0x12, 0x14, 0x19, 0x15, 0x09, 0x0f, 0x10, 0x00, 
+                                   0x00, 0x00, 0x01, 0x13, 0x04, 0x06, 0x07, 0x08, 0x0a, 0x0b, 0x0c, 0x00, 
+                                   0x00, 0x00, 0x1a, 0x18, 0x03, 0x16, 0x02, 0x0e, 0x0d, 0x00, 0x00, 0x00};
+
 
 /* Memory abstraction functions */
 /*===============================================================================*/
@@ -60,11 +65,11 @@ typedef struct {
 	uint8 al[16];
 } CPM_DIRENTRY;
 
-#if defined board_teensy41
+//#if defined board_teensy41
   static DirFat_t fileDirEntry;
-#else
-  static dir_t    fileDirEntry;
-#endif
+//#else
+//  static dir_t    fileDirEntry;
+//#endif
 
 File _sys_fopen_w(uint8* filename) {
 	return(SD.open((char*)filename, O_CREAT | O_WRITE));
@@ -492,7 +497,7 @@ extern void printChar(char c);
 extern bool canShowCursor;    // カーソル表示可能か？
 extern void dispCursor(bool forceupdate);
 extern void printString(const char *str);
-extern void playTone(int pin, int tone, int duration);
+extern void playBeep(const uint16_t Number, const uint8_t ToneNo, const uint16_t Duration);
 
 static uint8 kbhit_char = 0;
 
@@ -508,11 +513,16 @@ int _kbhit(void) {
       case 0x07:
   //    tone(SPK_PIN, 4000, 583);
         break;
-      case 0xa8:    //Fn-C
-        kbhit_char = 0x03;  //Ctrl-C
-        break;
-      case 0x9f:    //Fn-H
-        kbhit_char = 0x08;  //Ctrl-H
+      case 0x82:          // Fn-2 (Ctrl+@)
+      case 0x86:          // Fn-6 (Ctrl+^)
+      case 0x87:          // Fn-7 (Ctrl+\)
+      case 0x88:          // Fn-8 (Ctrl+_)
+      case 0x89:          // Fn-9 (Ctrl+[)
+      case 0x8a:          // Fn-0 (Ctrl+])
+      case 0x8d ... 0x96: // Fn-Q..P
+      case 0x9a ... 0xa2: // Fn-A..L
+      case 0xa6 ... 0xac: // Fn-Z..M
+        kbhit_char = KEY_TBL[kbhit_char - 0x80];
         break;
       default:
         break;
@@ -545,7 +555,7 @@ void _putch(uint8 ch) {
 //  printChar(ch);
   switch (ch) {
     case 0x07:
-      playTone(SPK_PIN, 4000, 583);
+      playBeep(1, 12, 583);
       break;
     default:
       printChar(ch);
@@ -555,7 +565,7 @@ void _putch(uint8 ch) {
 
 void _clrscr(void) {
 //	Serial.println("\e[H\e[J");
-  printString("\e[H\e[J");
+  printString("\e[H\e[2J");
 }
 
 #endif
