@@ -244,13 +244,13 @@ union MODE_EX mode_ex = {defaultModeEx};
   +-------------+--------------+-----------+
   | キーボード  | Wio Terminal |  ESC SEQ  |
   +-------------+--------------+-----------+
-  | [F3]        | WIO_KEY_C    | [fn] 3 |
-  | [F4]        | WIO_KEY_B    | [fn] 4 |
-  | [F5]        | WIO_KEY_A    | [fn] 5 |
-  | [UP]        | WIO_5S_UP    | [fn] [↑] |
-  | [DOWN]      | WIO_5S_DOWN  | [fn] [↓] |
-  | [RIGHT]     | WIO_5S_RIGHT | [fn] [→] |
-  | [LEFT]      | WIO_5S_LEFT  | [fn] [←] |
+  | [fn] 3      | WIO_KEY_C    | 0x83      |
+  | [fn] 4      | WIO_KEY_B    | 0x84      |
+  | [fn] 5      | WIO_KEY_A    | 0x85      |
+  | [UP]        | WIO_5S_UP    | 0xB5      |
+  | [DOWN]      | WIO_5S_DOWN  | 0xB6      |
+  | [RIGHT]     | WIO_5S_RIGHT | 0xB7      |
+  | [LEFT]      | WIO_5S_LEFT  | 0xB4      |
   | [ENTER]     | WIO_5S_PRESS | [CR]      |
   +-------------+--------------+-----------+
 ********************************************/
