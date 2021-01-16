@@ -8,5 +8,7 @@ SdFat SD;
 #define LEDinv 0
 #define BOARD "Seeed Wio Terminal"
 #define board_wioterm
+#define board_analog_io
+#define board_digital_io
 
 #endif
