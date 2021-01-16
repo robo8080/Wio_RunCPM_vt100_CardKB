@@ -26,8 +26,8 @@
 #define STR(x) STR_HELPER(x)
 
 /* Definition of which CCP to use (must define only one) */
-//#define CCP_INTERNAL	// If this is defined, an internal CCP will emulated
-#define CCP_DR
+#define CCP_INTERNAL	// If this is defined, an internal CCP will emulated
+//#define CCP_DR
 //#define CCP_CCPZ
 //#define CCP_ZCPR2
 //#define CCP_ZCPR3
@@ -130,7 +130,7 @@ typedef unsigned int    uint32;
 #define RAM_FAST	// If this is defined, all RAM function calls become direct access (see below)
 					// This saves about 2K on the Arduino code and should bring speed improvements
 
-#define TPASIZE 60	// Can be 60 for CP/M 2.2 compatibility or more, up to 64 for extra memory
+#define TPASIZE 64	// Can be 60 for CP/M 2.2 compatibility or more, up to 64 for extra memory
 					// Values other than 60 or 64 would require rebuilding the CCP
 					// For TPASIZE<60 CCP ORG = (SIZEK * 1024) - 0x0C00
 

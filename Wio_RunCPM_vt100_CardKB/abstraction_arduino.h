@@ -498,11 +498,14 @@ extern bool canShowCursor;    // カーソル表示可能か？
 extern void dispCursor(bool forceupdate);
 extern void printString(const char *str);
 extern void playBeep(const uint16_t Number, const uint8_t ToneNo, const uint16_t Duration);
+extern QueueHandle_t xQueue;
+extern void loop();
 
 static uint8 kbhit_char = 0;
 
 int _kbhit(void) {
 //  return(Serial.available());
+  loop();
   if (!kbhit_char)
   {
     if (Wire.requestFrom(CARDKB_ADDR, 1))
@@ -527,6 +530,9 @@ int _kbhit(void) {
       default:
         break;
       }
+    }
+    if ((!kbhit_char) && (uxQueueMessagesWaiting(xQueue))) {
+      xQueueReceive( xQueue, &kbhit_char, 0 );
     }
   }
   if (canShowCursor || kbhit_char)
