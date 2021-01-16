@@ -25,6 +25,24 @@ RunCPM - Z80 CP/M 2.2 emulator <https://github.com/MockbaTheBorg/RunCPM><br>
 ライブラリはArduino IDEの[スケッチ | ライブラリをインクルード |ライブラリを管理...] からインストールすると簡単です。
 
 ---
+### 補足 ###
+CPU Speed を "200MHz" にして、Optimize を "Fastest" にすると描画速度が向上します。<br>
+ただし、バッテリーの消耗は早まるかもしれません。
+
+![画像3](images/image3.png)<br><br>
+
+---
+
+ビルド済みファイルを用意してあるので、すぐに試すことができます。<br>
+RunCPM 用のディスク (microSD) は別途用意する必要があります(参考資料を参照)。<br>
+### 手順 ###
+1. Wio TerminalとPCをUSBケーブルで接続します。
+2. Wio Terminalをダブルリセット(リセットを素早く2回やる)してブートローダーモードに入ります。
+3. USB接続しているPCにドライブが表示されます。
+4. このドライブにUF2フォルダ内のファイルをコピーします。<br>
+(CPU Speed"200MHz"版も入っています。)
+
+---
 
 ### CardKBでの制御文字の入力方法 ###
 
