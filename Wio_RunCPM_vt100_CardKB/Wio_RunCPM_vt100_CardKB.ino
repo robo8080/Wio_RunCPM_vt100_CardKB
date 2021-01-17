@@ -30,6 +30,10 @@
 #include "globals.h"
 #include <SdFat.h>
 // https://github.com/greiman/SdFat
+#include "RTC_SAMD51.h"
+// https://github.com/Seeed-Studio/Seeed_Arduino_RTC
+#include "DateTime.h"
+
 #include "hardware/wioterm.h"
 #include "abstraction_arduino.h"
 
@@ -1666,6 +1670,9 @@ void setup() {
   printString("\e[0;44m *** Terminal Init *** \e[0m\n");
   setCursorToHome();
 
+  // RTC の初期化
+  rtc.begin();
+
   // カーソル用タイマーの設定
   TC.startTimer(200000, handle_timer); // 200ms
 
@@ -1737,6 +1744,9 @@ void setup() {
 
 // ループ
 void loop() {
+  // RTC
+  now = rtc.now();
+  
   // スイッチ
   for (int i = 0; i < 5; i++) {
     if (digitalRead(SW_PORT[i]) == LOW) {
