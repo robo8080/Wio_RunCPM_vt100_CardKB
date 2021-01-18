@@ -310,7 +310,6 @@ QueueHandle_t xQueue;
 // LCD 制御用
 static LGFX lcd;
 
-// 関数
 // -----------------------------------------------------------------------------
 
 // 特殊キーの送信
@@ -1048,8 +1047,7 @@ void cursorPosition(uint8_t y, uint8_t x) {
 void refreshScreen() {
   lcd.setAddrWindow(MARGIN_LEFT, MARGIN_TOP, SP_W, SP_H);
   for (int i = 0; i < SC_H; i++)
-    for (uint8_t i = 0; i < SC_H; i++)
-      sc_updateLine(i);
+    sc_updateLine(i);
 }
 
 // ED (Erase In Display): 画面を消去
@@ -1173,7 +1171,7 @@ void deleteLine(uint8_t v) {
   memset(&screen[idx3], 0x00, n);
   memset(&attrib[idx3], defaultAttr.value, n);
   memset(&colors[idx3], defaultColor.value, n);
-  memset(&colors[idx3], defaultColor.value, n);
+  lcd.setAddrWindow(MARGIN_LEFT, YP * CH_H + MARGIN_TOP, SP_W, ((M_BOTTOM + 1) * CH_H) - (YP * CH_H));
   for (int y = YP; y <= M_BOTTOM; y++)
     sc_updateLine(y);
 }
@@ -1610,8 +1608,6 @@ void unknownSequence(em m, char c) {
   DebugSerial.print(c);
 }
 
-// -----------------------------------------------------------------------------
-
 // タイマーハンドラ
 void handle_timer() {
   canShowCursor = true;
@@ -1667,7 +1663,6 @@ void setup() {
 
   fontTop = (uint8_t*)font6x8tt + 3;
   resetToInitialState();
-  printString("\e[0;44m *** Terminal Init *** \e[0m\n");
   setCursorToHome();
 
   // RTC の初期化
@@ -1686,8 +1681,6 @@ void setup() {
 
   // ブザーの初期化
   pinMode(SPK_PIN, OUTPUT);
-
-  //---------RunCPM-----------------------------------------------------
 
 #ifdef DEBUGLOG
   _sys_deletefile((uint8 *)LogName);
