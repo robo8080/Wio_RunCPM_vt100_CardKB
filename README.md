@@ -36,7 +36,7 @@ RunCPM - Z80 CP/M 2.2 emulator <https://github.com/MockbaTheBorg/RunCPM><br>
 CPU Speed を "200MHz" にして、Optimize を "Fastest" にすると描画速度が向上します。<br>
 ただし、バッテリーの消耗は早まるかもしれません。
 
-![画像3](images/image3.png)<br><br>
+![画像4](images/image4.png)<br><br>
 
 ---
 
