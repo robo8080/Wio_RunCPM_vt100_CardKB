@@ -776,7 +776,62 @@ void _Bdos(void) {
 		/*
 		C = 232 (E8h) : ESP32 specific BDOS call
 		*/
-#if defined board_wio
+#if defined board_wioterm
+  case 42: // 42 (2Ah): get date
+    switch (DE >> 14) {
+      case 1:  // 1: get Month and Day
+        HL = (now.month() << 8) | now.day();
+        break;
+      case 2:  // 2: get Day of the Week
+        HL = now.dayOfTheWeek();
+        break;
+      default: // 0: get Year
+        HL = now.year();
+        break;
+    }
+    break;
+  case 43: // 43 (2Bh): set date
+    {
+      uint16_t v = DE & 0x3FFF;
+      switch (DE >> 14) {
+        case 1:  // 1: set Month and Day
+          now = DateTime(now.year(), HIGH_REGISTER(v), LOW_REGISTER(v),
+                          now.hour(), now.minute(), now.second());
+          break;
+        default: // 0: set Year
+          now = DateTime(v, now.month(), now.day(),
+                         now.hour(), now.minute(), now.second());
+          break;
+      }
+      rtc.adjust(now);
+    }
+    break;
+  case 44: // 44 (2Ch): get time
+    switch (DE >> 14) {
+      case 1:  // 1: get Second
+        HL = (now.second() << 8);
+        break;
+      default: // 0: get Hour and Minute
+        HL = (now.hour() << 8) | now.minute();
+        break;
+    }
+    break;
+  case 45: // 45 (2Dh): set time
+    {
+      uint16_t v = DE & 0x3FFF;
+      switch (DE >> 14) {
+        case 1:  // 1: set Second
+          now = DateTime(now.year(), now.month(), now.day(),
+                         now.hour(), now.minute(), HIGH_REGISTER(v));
+          break;
+        default: // 0: Hour and Minute
+          now = DateTime(now.year(), now.month(), now.day(),
+                         HIGH_REGISTER(v), LOW_REGISTER(v), now.second());
+          break;
+      }
+      rtc.adjust(now);
+    }
+    break;
 	case 232:
 		HL = wiobdos(DE);
 		break;

@@ -11,4 +11,11 @@ SdFat SD;
 #define board_analog_io
 #define board_digital_io
 
+RTC_SAMD51 rtc;
+DateTime now;
+
+uint8 wiobdos(uint16 dmaaddr) {
+	return(0x00);
+}
+
 #endif
